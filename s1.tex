@@ -1,0 +1,48 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\large\bf University of Waterloo\\
+CS~798 --- Mathematical Foundations of Computer Networking\\
+Winter 2014\\
+Assignment 1\\
+Siwei Yang - 20258568\\
+\end{center}
+\bigskip
+
+\begin{enumerate}
+\item{Problem 1}
+
+\begin{enumerate}
+\item{} (a) The activities in a system are observed for a time period of length L (from 0 to L).
+Let:
+\begin{itemize}
+\item n = number of jobs arrived in (0, L) = number of jobs processed in (0, L) 
+\item $a_j$ = probability that an arriving job sees j jobs in the system
+\item $d_j$ = probability that a departing job leaves behind j jobs in the system
+\end{itemize}
+
+There are no group arrivals (i.e., jobs arrive one after another). Show that $a_j$ = $d_j$ for all j.
+
+\item{} (b) Suppose arrivals occur in groups of two (i.e., we always see two jobs arriving at the same time), and we assume that both arriving jobs see the same number of jobs in the system. Is the relationship $a_j$ = $d_j$ for all j still true for this case? Explain your answer.
+\end{enumerate}
+
+\medskip
+
+\item{Problem 2}
+
+Suppose there are n arrivals in a time period of length L (from 0 to L), and the $n^{th}$ arrival (or last arrival) occurs at time L. Let $t_1$ be the time between 0 and the time of the first arrival, and $t_i$ be the interarrival time between the $(i-1)^{st}$ and $i^{th}$ arrivals, $i = 2, 3, \dotsc, n$
+\begin{enumerate}
+\item{} (a) Let X be the time until the next arrival. Plot X as a function of time t for $0 \le t \le L$.
+
+\item{} (b) Let $E[Y] = \frac{1}{n} * \sum^{n}_{i=1}{t_i}$ and $E[Y^2] = \frac{1}{n} * \sum^{n}_{i=1}{t_i^2}$ be the mean and second moment of the interarrival time, respectively. Using the plot in part (a), obtain an expression for E[X], the mean of X, as a function of E[Y] and E[Y2].
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
