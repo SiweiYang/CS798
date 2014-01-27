@@ -98,15 +98,165 @@ E[X] = \frac{E[Y^2]}{2 * E[Y]}
 
 \item{Problem 3}
 \begin{enumerate}
-\includegraphics[scale=0.9]{a1q3.png}
 \item{} Consider a single server queue model with two classes of jobs. Let $n_j$ = number of class j jobs arrived in $(0, L)$ = number of class j jobs processed in $(0, L)$, j = 1, 2. Also let $x_{ij}$ be the service time of the $i^{th}$ class j job. Obtain analytic results for $U_j^{'}$, the utilization of the server by class j jobs, j = 1, 2.
 
+we have
+\begin{equation}
+U = \frac{1}{L} * \sum_{j=1}^{n}{x_j}
+\end{equation}
+for the general server utilization. But taking account the setting in problem statement, given the two classes of jobs, we alter the formula to get
+\begin{equation}
+U_i' = \frac{1}{L} * \sum_{j=1}^{n_i}{x_{ji}}
+\end{equation}
+\begin{minipage}{\textwidth}
 \item{} Consider a queueing model with a single queue and two parallel servers (see Figure below). Let n = number of jobs arrived in (0, L) = number of jobs processed in (0, L). Also let $x_i$ be the service time of the $i^{th}$ job. Is it possible to obtain analytic results for $U_i$, the utilization of server i, i = 1, 2? Explain your answer.
+\includegraphics[width=\textwidth]{a1q3.png}
+\end{minipage}
 
+Assuming the single queue is FIFO, and it dispatches job to idle server(always server 1 when both are idle), we can only determine the job scheduling if the arrival time of each job is known. But without the arrival time, the utilization of server 1 and 2 can be totally different while the service time of each job remains constant.
+
+Consider:
+
+\begin{tabular}{l*{6}{c}r}
+Job              & service time & arrival time \\
+\hline
+job 1            & 3 & 0 \\
+job 2            & 3 & 3 \\
+\end{tabular}
+
+\begin{tabular}{l*{6}{c}r}
+Job              & service time & arrival time \\
+\hline
+job 1            & 3 & 0 \\
+job 2            & 3 & 0 \\
+\end{tabular}
+
+in the first scenario, server 1 have full utilization while in the second case server 1 and 2 splt utilization evenly.
+
+\end{enumerate}
+
+\begin{minipage}{\textwidth}
+\item{Problem 4}
+Consider the tandem queue model shown in the Figure below. Packets sent by the sender are transmitted along a path consisting of links 1, 2, 3 and 4, and then delivered to the receiver. Each link is modeled by a server.
+
+\includegraphics{a1q4.png}
+\end{minipage}
+Suppose link 3 is under heavy load and the loss probability at link 3 is p (the loss probabilities at the
+other three links are zero). Let
+\begin{itemize}
+\item{} Y be the system throughput = the rate at which packets are delivered to the receiver
+\item{} R be the mean end-to-end delay from sender to receiver
+\item{} Q be the mean number of packets in the network
+\end{itemize}
+It has been suggested that according to Little'’s Law, we can write $YR = Q$. Do you agree? Explain your answer.
+
+I do not agree. Little'’s Law is building on the idea that we can represent the total amount of time that every job spend in the system in two ways. However, for $Y, R$ define in this problem, only the sucessful jobs are accounted for. While $Q$ receives contribution from dropped packets too. Therefore, two sides of the equation does not agree on the total amount of time that they are using. Thus the equation does not hold.
+
+\begin{minipage}{\textwidth}
+\item{Problem 5}
+Consider the following open queueing network model. Suppose the mean response times at the four servers, denoted by $R_1$, $R_2$, $R_3$, and $R_4$, are 0.02, 0.03, 0.05, and 0.02 seconds, respectively. For this model, the end-to-end delay is the elapsed time from when a job arrives from outside the network to when this job departs from the network. Determine R, the mean end-to-end delay.
+
+\includegraphics[width=\textwidth]{a1q5.png}
+\end{minipage}
+
+Let $\lambda$, $\lambda_1$, $\lambda_2$, $\lambda_3$, $\lambda_4$ to be total arrival rate for whole system and server 1, 2, 3, 4 respectively. Then we have equations:
+
+\begin{equation}
+\lambda = \lambda_1
+\end{equation}
+
+\begin{equation}
+\lambda_1 = 1 + \lambda_2 + \lambda_3 + \lambda_4
+\end{equation}
+
+\begin{equation}
+\lambda_2 = \lambda_1 * p_{12}
+\end{equation}
+
+\begin{equation}
+\lambda_3 = \lambda_1 * p_{12}
+\end{equation}
+
+\begin{equation}
+\lambda_4 = \lambda_1 * p_{12}
+\end{equation}
+
+By solving this system of euqations, we have $\lambda_1 = 20$, $\lambda_2 = 8$, $\lambda_3 = 7$, $\lambda_4 = 4$. Combine with the response time formula derived from Little''s Law:
+
+\begin{equation}
+R = \frac{1}{\lambda} * \sum_{i=1}^{M}{\lambda_i * R_i}
+\end{equation}
+
+we have the total response time being $0.02 + 0.4 * 0.03 + 0.35 * 0.05 + 0.2 * 0.02 = 0.0535$
+
+\item{Problem 6}
+
+\begin{enumerate}
+\item{} Consider a queueing model with a single server, two classes of jobs, and cyclic service discipline. This is illustrated in the diagram below.
+
+\includegraphics{a1q6.png}
+Under cyclic service, class 1 job arrivals join queue 1 and class 2 job arrivals join queue 2. Service is provided in cycles. A cycle starts with the server checking queue 1. If queue 1 is non-empty, the first job at queue 1 is processed. The server then checks queue 2 and processes the first job at queue 2 if queue 2 is non-empty. The cycle ends when processing of this job is complete.
+
+The cycle time is defined to be the sum of:
+\begin{itemize}
+\item{} Service time of first job at queue 1 (if queue 1 is non-empty), and zero otherwise
+\item{} Service time of first job at queue 2 (if queue 2 is non-empty), and zero otherwise
+\item{} Time spent in moving from queue 1 to queue 2 and back to queue 1
+\end{itemize}
+
+Suppose there are K cycles in a time period of length L (from 0 to L). Let
+\begin{itemize}
+\item{} m = number of class 1 jobs arrived in (0, L) = number of class 1 jobs processed in (0, L)
+\item{} n = number of class 2 jobs arrived in (0, L) = number of class 2 jobs processed in (0, L)
+\item{} $s_i$ = service time of the $i^{th}$ class 1 job, $i = 1, 2, \dotsc, m$
+\item{} $x_j$ = service time of the $j^{th}$ class 2 job, $j = 1, 2, \dotsc, n$
+\item{} H = time spent in moving from queue 1 to queue 2 and back to queue 1; H is a constant regardless of whether queue 1 is empty or not, or whether queue 2 is empty or not.
+\end{itemize}
+
+Also let
+\begin{itemize}
+\item{} $S_1^{'}$ = mean service time of class 1 jobs
+\item{} $S_2^{'}$ = mean service time of class 2 jobs
+\item{} C = mean cycle time
+\item{} $\lambda_1^{'}$ = arrival rate of class 1 jobs
+\item{} $\lambda_2^{'}$ = arrival rate of class 2 jobs
+\end{itemize}
+Derive an analytic expression for C. You must express your answer as a function of H, $S_1^{'}$, $S_2^{'}$, $\lambda_1^{'}$ and $\lambda_2^{'}$ only.
+
+Consider the total running time of the server:
+\begin{equation}
+T = K * 2 * H + S_1^{'} * m + S_2^{'} * n = C * K
+\end{equation}
+
+Also, we know that:
+\begin{equation}
+m = C * K * \lambda_1^{'}
+\end{equation}
+\begin{equation}
+n = C * K * \lambda_2^{'}
+\end{equation}
+
+Combining all three equations gives:
+\begin{equation}
+2 * H + S_1^{'} * C * \lambda_1^{'} + S_2^{'} * C * \lambda_2^{'} = C
+\end{equation}
+
+Therefore, the mean cycle time is $\frac{2 * H}{1 - S_1^{'} * \lambda_1^{'} - S_2^{'} * \lambda_2^{'}}$.
+
+\item{} Repeat part (a) for the case of a cyclic service discipline with exhaustive service. Under exhaustive
+service, each time queue j is checked during a cycle ($j = 1, 2$), jobs at queue j are processed until queue
+j is empty. For this case, the cycle time is the sum of:
+\begin{itemize}
+\item{} Total service time of jobs at queue 1 that have been processed (if queue 1 is non-empty), and zero otherwise
+\item{} Total service time of jobs at queue 2 that have been processed (if queue 2 is non-empty), and zero otherwise
+\item{} Time spent in moving from queue 1 to queue 2 and back to queue 1
+\end{itemize}
+Derive an analytic expression for C. You must express your answer as a function of H, $S_1^{'}$, $S_2^{'}$, $\lambda_1^{'}$ and $\lambda_2^{'}$ only.
+
+All three equations in part(a) still hold, so the expression for C will not change. It remains $\frac{2 * H}{1 - S_1^{'} * \lambda_1^{'} - S_2^{'} * \lambda_2^{'}}$.
 \end{enumerate}
 
 
 \end{enumerate}
-
 \end{document}
 
