@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[letterpaper]{article}
 \usepackage{amsmath, amsthm}
 \usepackage{mathtools}
 \usepackage{tikz}
@@ -96,7 +96,7 @@ and we know that
 E[Y] * n = L, E[Y^2] * n = \sum^{n}_{i=1}{t_i^2}
 \end{equation}
 
-Combine \ref{eq:region} and \ref{eq:region-sum} together, we end up with
+Combine equation \ref{eq:region} and equation \ref{eq:region-sum} together, we end up with
 \begin{equation}
 E[X] = \frac{E[Y^2]}{2 * E[Y]}
 \end{equation}
@@ -114,7 +114,7 @@ U = \frac{1}{L} * \sum_{j=1}^{n}{x_j}
 \end{equation}
 for the general server utilization. But taking account the setting in problem statement, given the two classes of jobs, we alter the formula to get
 \begin{equation}
-U_i' = \frac{1}{L} * \sum_{j=1}^{n_i}{x_{ji}}
+U_j' = \frac{1}{L} * \sum_{i=1}^{n_j}{x_{ij}}
 \end{equation}
 \begin{minipage}{\textwidth}
 \item{} Consider a queueing model with a single queue and two parallel servers (see Figure below). Let n = number of jobs arrived in (0, L) = number of jobs processed in (0, L). Also let $x_i$ be the service time of the $i^{th}$ job. Is it possible to obtain analytic results for $U_i$, the utilization of server i, i = 1, 2? Explain your answer.
@@ -146,6 +146,7 @@ in the first scenario, server 1 have full utilization while in the second case s
 
 \begin{minipage}{\textwidth}
 \item{Problem 4}
+
 Consider the tandem queue model shown in the Figure below. Packets sent by the sender are transmitted along a path consisting of links 1, 2, 3 and 4, and then delivered to the receiver. Each link is modeled by a server.
 
 \includegraphics{a1q4.png}
@@ -161,7 +162,14 @@ It has been suggested that according to Little'’s Law, we can write $YR = Q$. 
 
 I do not agree.
 
-Little'’s Law is building on the idea that we can represent the total amount of time that every job spend in the system in two ways. However, for $Y, R$ define in this problem, only the sucessful jobs are accounted for. While $Q$ receives contribution from dropped packets too. Therefore, two sides of the equation does not agree on the total amount of time that they are using. Thus the equation does not hold.
+Little'’s Law is building on the idea that we can represent the total amount of time that every job spend in the system in two ways. However, for $Y, R$ define in this problem, only the sucessful jobs are accounted for. While $Q$ receives contribution from dropped packets too. Therefore, two sides of the equation does not agree on the total amount of time that they are using. Put that into equations we can have:
+\begin{equation}
+YR = \lambda * (1 - p) * R
+\end{equation}
+\begin{equation}
+Q = \lambda * (1 - p) * R + \lambda * p * R'
+\end{equation}
+where $\lambda$ is the total arrival rate to the system, and $R'$ is the mean response time for dropped packets. Thus, we can conclude from the equations that $YR = Q$ does not hold unless $p = 0$.
 \medskip
 
 \begin{minipage}{\textwidth}
@@ -236,7 +244,7 @@ Derive an analytic expression for C. You must express your answer as a function 
 
 Consider the total running time of the server:
 \begin{equation}
-T = K * 2 * H + S_1^{'} * m + S_2^{'} * n = C * K
+T = K * H + S_1^{'} * m + S_2^{'} * n = C * K
 \end{equation}
 
 Also, we know that:
@@ -249,10 +257,10 @@ n = C * K * \lambda_2^{'}
 
 Combining all three equations gives:
 \begin{equation}
-2 * H + S_1^{'} * C * \lambda_1^{'} + S_2^{'} * C * \lambda_2^{'} = C
+H + S_1^{'} * C * \lambda_1^{'} + S_2^{'} * C * \lambda_2^{'} = C
 \end{equation}
 
-Therefore, the mean cycle time is $\frac{2 * H}{1 - S_1^{'} * \lambda_1^{'} - S_2^{'} * \lambda_2^{'}}$.
+Therefore, the mean cycle time is $\frac{H}{1 - S_1^{'} * \lambda_1^{'} - S_2^{'} * \lambda_2^{'}}$.
 
 \item{} Repeat part (a) for the case of a cyclic service discipline with exhaustive service. Under exhaustive
 service, each time queue j is checked during a cycle ($j = 1, 2$), jobs at queue j are processed until queue
@@ -264,7 +272,7 @@ j is empty. For this case, the cycle time is the sum of:
 \end{itemize}
 Derive an analytic expression for C. You must express your answer as a function of H, $S_1^{'}$, $S_2^{'}$, $\lambda_1^{'}$ and $\lambda_2^{'}$ only.
 
-All three equations in part(a) still hold, so the expression for C will not change. It remains $\frac{2 * H}{1 - S_1^{'} * \lambda_1^{'} - S_2^{'} * \lambda_2^{'}}$.
+All three equations in part(a) still hold, so the expression for C will not change. It remains $\frac{H}{1 - S_1^{'} * \lambda_1^{'} - S_2^{'} * \lambda_2^{'}}$.
 \end{enumerate}
 \medskip
 
