@@ -11,6 +11,13 @@
 
 \begin{document}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.55]{UniversityOfWaterloo_logo_vert_rgb}
+\end{figure}
+
+\vspace*{50 mm}
+
 \begin{center}
 \large\bf University of Waterloo\\
 CS~798 --- Mathematical Foundations of Computer Networking\\
@@ -18,7 +25,9 @@ Winter 2014\\
 Assignment 2\\
 Siwei Yang - 20258568\\
 \end{center}
-\bigskip
+\newpage
+
+
 
 \begin{enumerate}
 \item{Problem 1}
@@ -59,19 +68,19 @@ P(X = i) = 0.5^{i-1} \text{where $i \ge 2$}
 
 \end{enumerate}
 \medskip
+\newpage
 
 \item{Problem 3}
 \begin{mdframed}
 X and Y are exponentially distributed random variables with parameters $\lambda$ and $\mu$, respectively. Suppose X and Y are independent. Derive an expression for $P(X > Y)$.
 \end{mdframed}
 
-We know that $f_Y(x) = \mu * e^{-\mu*x}$, and $P(X > Y \mid Y = x) = P(X > x) = 1 - e^{-\lambda * x}$. Therefore, the cumulative probability is
+We know that $f_Y(x) = \mu * e^{-\mu*x}$, and $P(X > Y \mid Y = x) = P(X > x) = 1 - (1 - e^{-\lambda * x}) = e^{-\lambda * x}$. Therefore, the cumulative probability is
 \begin{equation}
 \begin{split}
-P(X > Y) &= \int_{0}^{\infty}{\mu * e^{-\mu*x} * (1 - e^{-\lambda * x})} \mathrm{d}x\\
-              &= \int_{0}^{\infty}{\mu * e^{-\mu*x}} \mathrm{d}x + \int_{0}^{\infty}{- \mu * e^{- (\mu + \lambda) * x}} \mathrm{d}x\\
-              &= 1 - \frac{\mu}{\mu + \lambda}\\
-              &= \frac{\lambda}{\mu + \lambda}
+P(X > Y) &= \int_{0}^{\infty}{\mu * e^{-\mu*x} * e^{-\lambda * x}} \mathrm{d}x\\
+              &= \int_{0}^{\infty}{- \mu * e^{- (\mu + \lambda) * x}} \mathrm{d}x\\
+              &= \frac{\mu}{\mu + \lambda}
 \end{split}
 \end{equation}
 \medskip
