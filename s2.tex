@@ -1,0 +1,254 @@
+\documentclass[letterpaper]{article}
+\usepackage{amsmath, amsthm}
+\usepackage{mdframed}
+\usepackage{mathtools}
+\usepackage{tikz}
+
+\DeclareGraphicsExtensions{.png}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+
+\begin{document}
+
+\begin{center}
+\large\bf University of Waterloo\\
+CS~798 --- Mathematical Foundations of Computer Networking\\
+Winter 2014\\
+Assignment 2\\
+Siwei Yang - 20258568\\
+\end{center}
+\bigskip
+
+\begin{enumerate}
+\item{Problem 1}
+\begin{mdframed}
+You are given a fair die and a biased die. Let X be a random variable representing the value shown face up when a die is rolled. For the fair die, $P(X = i) = \frac{1}{6}$, $i = 1, 2, \dots, 6$; and for the biased die, $P(X = 1) = \frac{3}{4}$ and $P(X = i) = \frac{1}{20}$, $i = 2, 3, \dots, 6$. You have no way of telling which die is biased. Suppose you select a die at random and upon rolling it, you get a “5”, what is the probability that you have selected the biased die?
+\end{mdframed}
+
+Using the provided probability function, we know that for a unbiased die to roll out a 5, the probability is $\frac{1}{6}$; while the biased die can roll out 5 with a probability of $\frac{1}{20}$. Since the die is chosen at random, therefore it is equally likely to select either die. Thus, the probability of rolling out a 5 is
+\begin{equation}
+0.5 * \frac{1}{6} + 0.5 * \frac{1}{20}
+\end{equation}
+However, we know that the result is 5. In this case, the probability that the biased die is selected is given as
+\begin{equation}
+\frac{0.5 * \frac{1}{20}}{0.5 * \frac{1}{6} + 0.5 * \frac{1}{20}} = \frac{3}{13}
+\end{equation}
+
+\medskip
+
+\item{Problem 2}
+\begin{mdframed}
+Let X be a random variable representing the number of times a coin is tossed until for the first time the same result appears twice in succession. It is assumed that the tosses are independent of each other, and for each toss, $P(head) = p$ and $P(tail) = q = 1- p$.
+\end{mdframed}
+\begin{enumerate}
+\item{} Give an expression for $P(X = 6)$. 
+
+There are only two ways for $X=6$ to happen: alternating and ends with two tails or alternating and ends with two heads. And we know the probability for that is
+\begin{equation}
+P(X = 6) = p^4*(1-p)^2 + p^2*(1-p)^4 = p^4 * q^2 + p^2 * q^4
+\end{equation}
+
+\item{}  For the special case $p = q = 0.5$, find the probability mass function of X.
+
+From the reasoning above, it is easy to conclude that $P(X = 2) = 0.5 * 0.5 + 0.5 * 0.5 = 0.5$. And that $P(X = 2 + i) = P(X = 2) * 0.5 ^ i$. So we can conclude this is a geometric series:
+\begin{equation}
+P(X = i) = 0.5^{i-1} \text{where $i \ge 2$}
+\end{equation}
+
+
+\end{enumerate}
+\medskip
+
+\item{Problem 3}
+\begin{mdframed}
+X and Y are exponentially distributed random variables with parameters $\lambda$ and $\mu$, respectively. Suppose X and Y are independent. Derive an expression for $P(X > Y)$.
+\end{mdframed}
+
+We know that $f_Y(x) = \mu * e^{-\mu*x}$, and $P(X > Y \mid Y = x) = P(X > x) = 1 - e^{-\lambda * x}$. Therefore, the cumulative probability is
+\begin{equation}
+P(X > Y) = \int_{-\infty}^{\infty}{\mu * e^{-\mu*x} * (1 - e^{-\lambda * x})} \mathrm{d}x
+\end{equation}
+\medskip
+
+\item{Problem 4}
+\begin{mdframed}
+Let m and $\sigma^2$ be, respectively, the mean and variance of a random variable X. Express $E[(X - b)^2]$ as a function of b, m, and $\sigma^2$.
+\end{mdframed}
+
+Consider the variance of X
+\begin{equation}
+\sigma^2 = E[(X-m)^2] = E[X^2 - 2*m*X + m^2] = E[X^2] - m^2
+\end{equation}
+and consider $E[(X - b)^2]$
+\begin{equation}
+E[(X - b)^2] = E[X^2 - 2*b*X + b^2] = E[X^2] - 2*m*b + b^2
+\end{equation}
+therefore, we can substitute $\sigma^2 = E[X^2] - m^2$ to get
+\begin{equation}
+E[(X - b)^2] = (\sigma^2 + m^2) - 2*m*b + b^2 = \sigma^2 + (m^2 - 2*m*b + b^2)
+\end{equation}
+
+\medskip
+\newpage
+
+\item{Problem 5}
+\begin{mdframed}
+Suppose $Y = X_1 + X_2$ where $X_1$ and $X_2$ are independent random variables. $X_1$ has Poisson distribution with parameter $\lambda_1$ and $X_2$ has Poisson distribution with parameter $\lambda_2$.
+\end{mdframed}
+\begin{enumerate}
+\item{} Show that Y also has Poisson distribution, with parameter $\lambda_1 + \lambda_2$.
+
+For Y to get a particular value k, $X_1$ and $X_2$ must get a pair of values that sum to k. Thus the formula
+\begin{equation}
+\begin{split}
+P_Y(k) &= \sum_{i = 0}^{k}{\frac{\lambda_1^i * e^{-\lambda_1}}{i!} * \frac{\lambda_2^{(k - i)} * e^{-\lambda_2}}{(k - i)!}}\\
+           &= \sum_{i = 0}^{k}{{k \choose i} * \frac{\lambda_1^i * \lambda_2^{(k - i)}}{(\lambda_1 + \lambda_2)^k} * \frac{(\lambda_1 + \lambda_2)^k * e^{-(\lambda_1 + \lambda_2)}}{k!}}\\
+           &=  \frac{(\lambda_1 + \lambda_2)^k * e^{-(\lambda_1 + \lambda_2)}}{k!} * \sum_{i = 0}^{k}{{k \choose i} * \frac{\lambda_1^i * \lambda_2^{(k - i)}}{(\lambda_1 + \lambda_2)^k}}\\
+           &=  \frac{(\lambda_1 + \lambda_2)^k * e^{-(\lambda_1 + \lambda_2)}}{k!} * (\frac{\lambda_1 + \lambda_2}{\lambda_1 + \lambda_2})^k\\
+           &=  \frac{(\lambda_1 + \lambda_2)^k * e^{-(\lambda_1 + \lambda_2)}}{k!}
+\end{split}
+\end{equation}
+Therefore, Y is a random variable having Poisson distribution, with parameter $\lambda_1 + \lambda_2$.
+
+\item{}  Using the results in (a), show that the conditional distribution $P(X_1 = k | Y = n)$ is Binomial.
+\begin{equation}
+\begin{split}
+P(X_1 = k | Y = n) &= \frac{P(X_1 = k, Y = n)}{P(Y = n)}\\
+           &= \frac{\lambda_1^k * e^{-\lambda_1}}{k!} * \frac{\lambda_2^{(n - k)} * e^{-\lambda_2}}{(n - k)!} * \frac{n!}{(\lambda_1 + \lambda_2)^n * e^{-(\lambda_1 + \lambda_2)}}\\
+           &= {n \choose k} * \frac{\lambda_1^k * \lambda_2^{(n - k)}}{(\lambda_1 + \lambda_2)^n} * \frac{(\lambda_1 + \lambda_2)^n * e^{-(\lambda_1 + \lambda_2)}}{n!} * \frac{n!}{(\lambda_1 + \lambda_2)^n * e^{-(\lambda_1 + \lambda_2)}}\\
+           &= {n \choose k} * \frac{\lambda_1^k * \lambda_2^{(n - k)}}{(\lambda_1 + \lambda_2)^n}\\
+           &= {n \choose k} * (\frac{\lambda_1}{\lambda_1 + \lambda_2)})^k * (\frac{\lambda_2}{\lambda_1 + \lambda_2)})^{n-k}
+\end{split}
+\end{equation}
+This clearly shows that $P(X_1 = k | Y = n)$ is Binomial.
+
+\end{enumerate}
+\medskip
+\newpage
+
+\item{Problem 6}
+\begin{mdframed}
+X and Y are continuous random variables, both uniformly distributed between 0 and L. Suppose X and Y are independent. Let $D = \left| X - Y \right|$. Derive an expression for $E[D]$.
+\end{mdframed}
+
+First of all, we know that D has range $(0, L)$
+\begin{equation}
+E[D] = \int_{x=0}^{L}{x * f_D(x) \mathrm{d}x}
+\end{equation}
+and for $D = x$, it could be $X - Y = x$ or $Y - X = x$. And, the possible value of the greater one between X and Y lies in $(x, L)$. Therefore
+\begin{equation}
+\begin{split}
+f_D(x) &= \int_{X=x}^{L}{\frac{1}{L} \mathrm{d}X} + \int_{Y=x}^{L}{\frac{1}{L} \mathrm{d}Y}\\
+          & = 2 * \frac{L - x}{L} * \frac{1}{L}
+\end{split}
+\end{equation}
+
+Thus, we have
+\begin{equation}
+\begin{split}
+E[D] &= \int_{x=0}^{L}{x * f_D(x) \mathrm{d}x}\\
+        &= \int_{x=0}^{L}{\frac{2}{L^2} * (L-x) * x \mathrm{d}x}\\
+        &= \frac{2}{L^2} * (\frac{L^3}{2} - \frac{L^3}{3})\\
+        &= \frac{L}{3}
+\end{split}
+\end{equation}
+\medskip
+
+\item{Problem 7}
+\begin{mdframed}
+Suppose $Y = X_1 + X_2, \dots + X_N$ where $X_1, X_2, \dots, X_N$ are independent and identically distributed random variables with mean $E[X]$ and variance $var(X)$. $N$, the number of $X_i's$ in the sum, is also a random variable; the mean and variance of $N$ are $E[N]$ and $var(N)$, respectively. Derive analytic expressions for $E[Y]$ and $var(Y)$.
+\end{mdframed}
+
+\begin{equation}
+E[Y] = \sum^{\infty}_{j = 0}{(P(N = j) * \sum^{j}_{i=1}{X_i})}
+\end{equation}
+since $X_i''s$ are identical, we can change all $X_i's$ to $X_1$ in the equation
+\begin{equation}
+E[Y] = \sum^{\infty}_{j = 0}{(P(N = j) * j * X_1)} = X_1 * \sum^{\infty}_{j = 0}{(P(N = j) * j)}
+\end{equation}
+which can be further reduce to
+\begin{equation}
+E[Y] = X_1 * E[N] = E[X] * E[N]
+\end{equation}
+
+for var(Y), we have
+\begin{equation}
+var(Y) = \sum^{\infty}_{j = 0}{\Big(P(N = j) * (\sum^{j}_{i=1}{X_i - E[X] * E[N])^2}\Big)}
+\end{equation}
+since $X_i''s$ are identical, we can change all $X_i's$ to $X_1$ in the equation
+\begin{equation}
+\begin{split}
+var(Y) &= \sum^{\infty}_{j = 0}{\Big(P(N = j) * (j * X_1 - E[X] * E[N])^2\Big)}\\
+          &= \sum^{\infty}_{j = 0}{\Big(P(N = j) * (j^2 * X_1^2 - 2 * j * X_1 * E[X] * E[N] + E[X]^2 * E[N]^2)\Big)}\\
+          &= \sum^{\infty}_{j = 0}{\Big(P(N = j) * (j^2 * X_1^2 - 2 * j * X_1 * E[X] * E[N])\Big)} + E[X]^2 * E[N]^2
+\end{split}
+\end{equation}
+then we move on to solve smaller parts of $\sum^{\infty}_{j = 0}{\Big(P(N = j) * (j^2 * X_1^2)\Big)}$ and $\sum^{\infty}_{j = 0}{\Big(P(N = j) * (- 2 * j * X_1 * E[X] * E[N])\Big)}$. Since $X_i's$ and N are independent, we have
+\begin{equation}
+\begin{split}
+\sum^{\infty}_{j = 0}{\Big(P(N = j) * (j^2 * X_1^2)\Big)} &= X_1^2 * \sum^{\infty}_{j = 0}{P(N = j) * j^2}\\
+                                                                                     &= X_1^2 * N^2
+\end{split}
+\end{equation}
+and we know $var(X) = (X_1 - E[X])^2 = X_1^2 - 2 * X_1 * E[X] + E[X]^2 = X_1^2 - E[X]^2$ and similarly $var(N) = N^2 - E[N]^2$, therefore we can substitute into the equation above to get
+\begin{equation}
+\sum^{\infty}_{j = 0}{\Big(P(N = j) * (j^2 * X_1^2)\Big)} = (var(X) + E[X]^2) * (var(N) * E[N]^2)
+\end{equation}
+\begin{equation}
+\begin{split}
+\sum^{\infty}_{j = 0}{\Big(P(N = j) * (- 2 * j * X_1 * E[X] * E[N])\Big)} &= - 2 * X_1 * E[X] * E[N] * \sum^{\infty}_{j = 0}{P(N = j) * j}\\
+                                                                                                        &= - 2 * X_1 * E[X] * E[N]^2\\
+                                                                                                        &= - 2 * E[X]^2 * E[N]^2
+\end{split}
+\end{equation}
+ So, combining all results above, we have
+\begin{equation}
+\begin{split}
+var(Y) &= (var(X) + E[X]^2) * (var(N) + E[N]^2) - E[X]^2 * E[N]^2\\
+          &= var(X) * var(N) + var(X) * E[N]^2 + var(N) * E[X]^2
+\end{split}
+\end{equation}
+
+\medskip
+
+\item{Problem 8}
+\begin{mdframed}
+Suppose $X_1 + X_2, \dots + X_N$ are independent random variables.
+\end{mdframed}
+\begin{enumerate}
+\item{} Let $T = max(X_1 + X_2, \dots + X_N)$. Express $F_{T}(x)$ as a function of $F_{X_i}(x)$, $i = 1, 2, \dots, n$. [Hint: Interpret $P(T \le x)$.]
+
+Since $F_{T}(x)$ is the probability that $T \le x$, then we know it happens only if all $X_i's \le x$. And since all $X_i's$ are independent, therefore the probability that all $X_i's \le x$ is $\prod_{i=1}^{N}{F_{X_i}(x)}$
+\begin{equation}
+F_{T}(x) = \prod_{i=1}^{N}{F_{X_i}(x)}
+\end{equation}
+
+\item{}  Let $T = mix(X_1 + X_2, \dots + X_N)$. Express $F_{T}(x)$ as a function of $F_{X_i}(x)$, $i = 1, 2, \dots, n$. [Hint: Interpret $P(T > x)$.] Show further that if each of the $X_i'’s$ has exponential distribution, T is also exponential.
+
+Since $F_{T}(x)$ is the probability that $T \le x$, $1 - F_{T}(x)$  is the probability that $T > x$ and we know it happens only if all $X_i's > x$. And since all $X_i's$ are independent, therefore the probability that all $X_i's > x$ is $\prod_{i=1}^{N}{1 - F_{X_i}(x)}$
+\begin{equation}
+1 - F_{T}(x) = \prod_{i=1}^{N}{1 - F_{X_i}(x)}
+\end{equation}
+simplify to
+\begin{equation}
+F_{T}(x) = 1 - \prod_{i=1}^{N}{1 - F_{X_i}(x)}
+\end{equation}
+
+Now, assume each of $X_i'’s$ has exponential distribution with $F_{X_i}(x) = 1 - e^{-\lambda_i*x}$, then we will have
+\begin{equation}
+\begin{split}
+F_{T}(x) &= 1 - \prod_{i=1}^{N}{1 - F_{X_i}(x)}\\
+              & = 1 - \prod_{i=1}^{N}{e^{-\lambda_i*x}}\\
+              & = 1 - e^{-x * \sum_{i=1}^{N}{\lambda_i}}
+\end{split}
+\end{equation}
+Therefore, T also has a exponential distribution with parameter $\sum_{i=1}^{N}{\lambda_i}$.
+
+\end{enumerate}
+\medskip
+
+
+\end{enumerate}
+\end{document}
+
